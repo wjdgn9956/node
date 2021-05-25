@@ -1,0 +1,19 @@
+{
+  "name": "node_resume",
+  "version": "1.0.0",
+  "description": "이력서 ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wjdgn9956/node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wjdgn9956/node/issues"
+  },
+  "homepage": "https://github.com/wjdgn9956/node#readme"
+}
