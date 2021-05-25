@@ -28,7 +28,11 @@ app.use(cookieParser(process.env.COOKIE_SECRET)); // 쿠키 설정
 app.use(session({
         resave: false,
         saveUninitialized : false,
-        
+        cookie : {
+            httpOnly :true,
+            secure : false,
+        },
+        name : "yjhsession",
 }));
 
 // 없는 페이지 처리 미들웨어 (라우터)
