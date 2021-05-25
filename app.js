@@ -20,11 +20,19 @@ nunjucks.configure("views", {
 
 
 app.use(morgan("dev"));
-
-
+app.use(methodOverride("_method"));
+app.use(express.json());
+app.use(express.urlencoded({extended:false}));
+app.use(express.static(path.join(__dirname, "public")));
+app.use(cookieParser(process.env.COOKIE_SECRET)); // 쿠키 설정
+app.use(session({
+        resave: false,
+        saveUninitialized : false,
+        
+}));
 
 // 없는 페이지 처리 미들웨어 (라우터)
-app.use((res, req, next) => {
+app.use((req, res, next) => {
     const error = new Error(`${req.method} ${req.url}는 없는 페이지 입니다.`);
     error.status = 404;
     next(error); // 에러 처리 미들웨어
