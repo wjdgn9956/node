@@ -46,6 +46,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET)); // 쿠기 설정
 app.use(session({
 	resave: false,
 	saveUninitialized : true,
+	secret : process.env.COOKIE_SECRET,
 	cookie : {
 		httpOnly : true,
 		secure : false,
