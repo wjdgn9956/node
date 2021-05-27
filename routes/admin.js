@@ -1,4 +1,5 @@
 const resume = require("../models/resume");
+const { alert, reload} = require("../lib/common");
 const express = require('express');
 const router = express.Router();
 
@@ -15,7 +16,11 @@ router.get("/", (req, res, next) => {
 /** 이력서 저장 처리 */
 router.post("/profile", async (req, res, next) => {
 	const result = await resume.update(req.body);
-	res.send("");
+	if (!result) {
+		return alert("이력서 저장에 실패하였습니다", res);
+	}
+
+	return reload(res , "parent");
 });
 
 module.exports = router;
