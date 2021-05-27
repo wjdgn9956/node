@@ -22,18 +22,19 @@ CREATE TABLE `basicinfo` (
 	`cellPhone` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`gender` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`email` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	`address` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`address` VARCHAR(250) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`workType` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`salary` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`workLocation` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	`workKeyword` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
-	`beneift` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`workKeyword` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`benefit` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`handicapLevel` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`military` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci'
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
 
 school
 
