@@ -385,6 +385,7 @@ const resume = {
 			'license',
 			'overseas',
 			'portfolio',
+			'school',
 		];
 		
 		const data = {};
@@ -411,7 +412,7 @@ const resume = {
 		} catch (err) {
 			return {};
 		}
-		console.log(data);
+		
 		return data;
 	},
 };
