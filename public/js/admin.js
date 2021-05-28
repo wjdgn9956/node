@@ -7,9 +7,50 @@ function getResume()
 	$.ajax({
 		url : "/admin/profile",
 		type : "get",
-		dataType : "html",
+		dataType : "json",
 		success : function (res) {
-			console.log(res);
+			/* basicinfo */
+			if (res.basicinfo) {
+				for (key in res.basicinfo) {
+					$target = $("input[name='" + key + "']");
+					if ($target.length > 0) {
+						switch ($target.attr("type")) {
+							case "text" : 
+							case "email" :
+								$target.val(res.basicinfo[key]);
+								break;
+							case "checkbox" :
+								if (res.basicinfo[key] instanceof Array) { // 복수 checkbox
+									//  취업우대, 병역 노출
+									if (res.basicinfo[key].length > 0) {
+										$("section.benefit").removeClass("dn");
+										$("#selection_items10").prop("checked", true);
+									}
+
+									$.each($target, function() {
+										const v = $(this).val();
+										let checked = false;
+										if (res.basicinfo[key].indexOf(v) != -1) {
+											checked = true;
+
+											if ( v == "장애") {
+												$(".additional_select, .additional_select .handicap").removeClass("dn");
+											} else if ( v == "병역") {
+												$(".additional_select, .additional_select .military").removeClass("dn");
+
+											}
+										}
+										$(this).prop("checked", checked);
+
+									});
+								} else { //단일 checkbox 
+									$target.prop("checked", res.basicinfo[key]);
+								}
+								break;
+						}
+					}
+				}
+			}
 		},
 		error : function (err) {
 			console.error(err);
