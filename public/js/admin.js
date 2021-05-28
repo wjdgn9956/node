@@ -96,6 +96,12 @@ function getResume()
 			} // endfor
 			/** 나머지 테이블 처리 */
 			
+			/** 이미지 처리 */
+			if (res.profile) {
+				$(".photo_upload").html( `<img src='${res.profile}'>`);
+				$(".photo_upload").parent().append("<i class='xi-close photo_remove'></i>");
+			}
+			
 		},
 		error : function (err) {
 			console.error(err);
@@ -168,13 +174,13 @@ function addForm(type, target, list)
 						const name = $(this).attr("name").toLowerCase();
 						for(key in data) {
 							let keyName = key.toLowerCase();
-							if (keyName == 'description') keyname = 'desc';
+							if (keyName == 'description') keyName = 'desc';
 							
 							if (name.indexOf(keyName) != -1) {
 								// 일치하는 name이 있는 경우 
 								$(this).val(data[key]);
-
-								if (selector == "select") {
+								
+								if (selector == 'select') {
 									$(this).change();
 								}
 								break;
@@ -279,6 +285,7 @@ function uploadCallback(isSuccess)
 	if (isSuccess) { // 성공 
 		const tag = `<img src='/profile/profile'>`;
 		$(".photo_upload").html(tag);
+		$(".photo_upload").parent().append("<i class ='xi-close photo_remove'></i>");
 	} else { // 실패 
 		alert("이미지 업로드 실패");
 	}
@@ -349,5 +356,30 @@ $(function() {
 		if (confirm('정말 저장하시겠습니까?')) {
 			frmProfile.submit();
 		}
+	});
+	
+	/** 이력서 이미지 삭제 */
+	$("body").on("click", ".photo_remove", function() {
+		if (!confirm('정말 삭제하시겠습니까?')){
+			return;
+		}
+		$.ajax({
+			url : "/admin/remove_photo",
+			type : "get",
+			dataType : "text",
+			success : function (res) {
+				if (res.trim() == "1") { // 삭제 성공
+				const tag = `<i class='xi-plus-circle-o icon'></i>
+							<div class='t'>사진추가</div>`;
+					$(".photo_upload").html(tag);
+					$(".photo_remove").remove();		
+				} else { // 삭제 실패
+					alert("이미지 삭제 실패");
+				}
+			},
+			error : function (err) {
+				console.error(err);
+			}
+		});
 	});
 });
