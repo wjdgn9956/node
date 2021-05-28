@@ -30,11 +30,15 @@ CREATE TABLE `basicinfo` (
 	`benefit` VARCHAR(150) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`handicapLevel` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`military` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`militaryStartDate` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`militaryEndDate` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
+	`militaryRank` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8_general_ci',
 	`negotiableSalary` TINYINT(1) NULL DEFAULT '0'
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
 ;
+
 
 
 school
@@ -43,11 +47,20 @@ CREATE TABLE `school` (
 	`idx` INT(11) NOT NULL AUTO_INCREMENT,
 	`type` VARCHAR(50) NOT NULL COLLATE 'utf8_general_ci',
 	`name` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
+	`startDate` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
+	`endDate` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
+	`status` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
+	`transfer` TINYINT(1) NOT NULL DEFAULT '0',
+	`major` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
+	`score` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
+	`scoreTotal` VARCHAR(60) NOT NULL COLLATE 'utf8_general_ci',
 	PRIMARY KEY (`idx`) USING BTREE
 )
 COLLATE='utf8_general_ci'
 ENGINE=InnoDB
+AUTO_INCREMENT=4
 ;
+
 
 
 jobhistory
