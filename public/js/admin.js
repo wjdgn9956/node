@@ -151,12 +151,7 @@ function addForm(type, target, list)
 		
 	if (template) {
 		let html = $("#template_" + template).html();
-					
-		if (target.length > 0) {
-			const no = new Date().getTime();
-			html = html.replace(/<%=no%>/g, no);
-		}
-		
+							
 		if (list) { // 데이터가 있으면 갯수만큼 추가 
 			if (list.length > 0) {
 				$("section." + template).removeClass("dn");
@@ -166,7 +161,10 @@ function addForm(type, target, list)
 			
 			list.forEach((data) => {
 				// 데이터를 완성 처리 
-				$tplHtml = $(html);
+				let html2 = html;
+				html2 = html2.replace(/<%=no%>/g, new Date().getTime());
+				
+				$tplHtml = $(html2);
 				const selector = ["input[type='text']", "textarea", "select"];
 				selector.forEach((selector) => {
 					$texts = $tplHtml.find(selector);
@@ -192,6 +190,7 @@ function addForm(type, target, list)
 				target.append($tplHtml);
 			});
 		} else { // DB 에 데이터 없는 경우는 1개만 추가 
+			html = html.replace(/<%=no%>/g, new Date().getTime());
 			target.append(html);
 		}
 	} 
@@ -285,7 +284,7 @@ function uploadCallback(isSuccess)
 	if (isSuccess) { // 성공 
 		const tag = `<img src='/profile/profile'>`;
 		$(".photo_upload").html(tag);
-		$(".photo_upload").parent().append("<i class ='xi-close photo_remove'></i>");
+		$(".photo_upload").parent().append("<i class='xi-close photo_remove'></i>");
 	} else { // 실패 
 		alert("이미지 업로드 실패");
 	}
@@ -360,19 +359,20 @@ $(function() {
 	
 	/** 이력서 이미지 삭제 */
 	$("body").on("click", ".photo_remove", function() {
-		if (!confirm('정말 삭제하시겠습니까?')){
+		if (!confirm('정말 삭제하시겠습니까?')) {
 			return;
 		}
+		
 		$.ajax({
 			url : "/admin/remove_photo",
 			type : "get",
 			dataType : "text",
 			success : function (res) {
-				if (res.trim() == "1") { // 삭제 성공
-				const tag = `<i class='xi-plus-circle-o icon'></i>
-							<div class='t'>사진추가</div>`;
+				if (res.trim() == "1") { // 삭제 성공 
+					const tag = `<i class='xi-plus-circle-o icon'></i>
+									<div class='t'>사진추가</div>`;
 					$(".photo_upload").html(tag);
-					$(".photo_remove").remove();		
+					$(".photo_remove").remove();
 				} else { // 삭제 실패
 					alert("이미지 삭제 실패");
 				}
@@ -381,5 +381,30 @@ $(function() {
 				console.error(err);
 			}
 		});
+	});
+	
+	/** 학력에서 학교 구분 선택 처리 */
+	$("body").on("change", "select[name='schoolType']", function() {
+		$section = $(this).closest("section");
+		$target = $section.find(".status, .major, .score, .scoreTotal");
+		if ($(this).val() == '고등학교' || $(this).val() == "") {
+			$target.addClass("dn");
+			$section.find(".schoolTransferTxt").text("대입검정고시");
+		} else { // 고등학교 외 
+			$target.removeClass("dn");
+			$section.find(".schoolTransferTxt").text("편입");
+		}
+	});
+	
+	/** 학력 - 편입, 대입검정고시 클릭시 처리 */
+	$("body").on("click", ".schoolTransfer", function() {
+		const v = $(this).prop("checked")?1:0;
+		$(this).parent().find("input[name='schoolTransfer']").val(v);
+	});
+	
+	/** 경력 - 재직중 클릭시 처리 */
+	$("body").on("click", ".jhInOffice", function() {
+		const v = $(this).prop("checked")?1:0;
+		$(this).parent().find("input[name='jhInOffice']").val(v);
 	});
 });
