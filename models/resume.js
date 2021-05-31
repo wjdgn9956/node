@@ -434,6 +434,19 @@ const resume = {
 					data[table] = rows[0];
 					data[table].benefit = data[table].benefit?data[table].benefit.split("||"):[];
 					
+
+					let age = 0, birthYear = 0;
+					if (data[table].birthDate) {
+						const birthDate = data[table].birthDate.split(".");
+
+						const year = Number(new Date().getFullYear());
+						age = year - Number(birthDate[0]) + 1;
+						birthYear = birthYear[0];
+
+					}
+					data[table].birthYear = birthYear;
+					data[table].age = age;
+
 				} else { // 나머지는 레코드 여러개 
 					data[table] = rows;
 				}
