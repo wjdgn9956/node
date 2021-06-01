@@ -474,16 +474,14 @@ const resume = {
 						if (table == 'jobhistory' && 'work' in v) {
 							_rows[i].work2 = v.work.nl2br();
 						}
-
-						// 시작일, 종료일이 있는 경우 -> 총 년, 월 기간으로 계산 
-
+						
+						// 시작일, 종료일이 있는 경우 -> 총 년, 월 기간으로 계산
 						if (v.startDate && v.endDate) {
 							const period = resume.getPeriod(v.startDate, v.endDate);
 							_rows[i].period = period.str;
 						}
-						
 					});
-
+					
 					data[table] = rows;
 				}
 			}
@@ -499,7 +497,7 @@ const resume = {
 		
 		// 오늘 날짜 + 요일 
 		data.today = this.getToday();
-		
+
 		return data;
 	},
 	/**
@@ -523,31 +521,30 @@ const resume = {
 		return dateStr;
 	},
 	/**
-	 * 년, 월 계산
-	 * 
-	 */
+	* 년, 월 기간 계산 
+	*
+	*/
 	getPeriod : function(startDate, endDate) {
 		/**
-		 * 년도 차이 x 12 + 현재 월 -> 총 개월 수 
-		 * 년.월 
-		 */
+		년도 차이 X 12 + 현재 월 ->  총 개월수 
+		년.월
+		*/
 		endDate = endDate.split(".");
 		const endMonth = Number(endDate[0] * 12) + Number(endDate[1]);
-
-
+		
 		startDate = startDate.split(".");
 		const startMonth = Number(startDate[0] * 12) + Number(startDate[1]);
-
-		const gap = endMonth - startMonth + 1; 
+		
+		const gap = endMonth - startMonth + 1;
 		const year = Math.floor(gap / 12);
 		const month = gap % 12;
-
-	    let str = "";
+		
+		let str = "";
 		if (year) str += year + "년 ";
 		if (month) str += month + "개월";
-
+		
 		return { year, month, str };
-	} 
+	}
 };
 
 module.exports = resume;
