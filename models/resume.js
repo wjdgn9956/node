@@ -474,9 +474,16 @@ const resume = {
 						if (table == 'jobhistory' && 'work' in v) {
 							_rows[i].work2 = v.work.nl2br();
 						}
+
+						// 시작일, 종료일이 있는 경우 -> 총 년, 월 기간으로 계산 
+
+						if (v.startDate && v.endDate) {
+							const period = resume.getPeriod(v.startDate, v.endDate);
+							_rows[i].period = period.str;
+						}
 						
 					});
-					console.log(rows);
+
 					data[table] = rows;
 				}
 			}
@@ -490,30 +497,57 @@ const resume = {
 			data['profile'] = "/profile/profile";
 		} catch (err) {}
 		
-		// 오늘 날짜 + 요일
-		date.today = this.getToday();
-
+		// 오늘 날짜 + 요일 
+		data.today = this.getToday();
+		
 		return data;
 	},
 	/**
-	 * 오늘 날짜 요일 
-	 * 
-	 */
+	* 오늘 날짜 요일 
+	*
+	*/
 	getToday : function() {
 		const date = new Date();
 		const year = date.getFullYear();
 		let month = date.getMonth() + 1;
 		month = (month < 10)?"0"+month:month;
-		let day = date.getDate
-		day =  (day < 10)?"0"+day:day;
-
-		const yoils = ["일", "월", "화", "수", "목", "금", "토"]; // 0~6
+		
+		let day = date.getDate();
+		day = (day < 10)?"0"+day:day;
+		
+		const yoils = ["일", "월","화","수","목","금","토"]; // 0~6
 		const yoil = yoils[date.getDay()];
-
-		const dateStr =  `${year}년 ${month}월 ${day}일 (${yoil})`;
-
+		
+		const dateStr = `${year}년 ${month}월 ${day}일 (${yoil})`;
+		
 		return dateStr;
-	}
+	},
+	/**
+	 * 년, 월 계산
+	 * 
+	 */
+	getPeriod : function(startDate, endDate) {
+		/**
+		 * 년도 차이 x 12 + 현재 월 -> 총 개월 수 
+		 * 년.월 
+		 */
+		endDate = endDate.split(".");
+		const endMonth = Number(endDate[0] * 12) + Number(endDate[1]);
+
+
+		startDate = startDate.split(".");
+		const startMonth = Number(startDate[0] * 12) + Number(startDate[1]);
+
+		const gap = endMonth - startMonth + 1; 
+		const year = Math.floor(gap / 12);
+		const month = gap % 12;
+
+	    let str = "";
+		if (year) str += year + "년 ";
+		if (month) str += month + "개월";
+
+		return { year, month, str };
+	} 
 };
 
 module.exports = resume;
